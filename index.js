@@ -1,21 +1,25 @@
 "use strict";
 
 //hoofd programma
-const artikelen = vraagArtikelen();
-const gevondenArtikelen = artikelZoeker();
-toonArrays(gevondenArtikelen);
-const getallen = vraagPrijzen();
-const gefilterdePrijzen = filterPrijzen(getallen, artikelen);
-for (const item of gefilterdePrijzen) {
-  console.log(item.naam, item.verkoopprijs);
+let naam = prompt("Naam van artikel (typ stop om te stoppen)");
+if (naam !== "stop") {
+  const artikelen = vraagArtikelen(naam);
+  const gevondenArtikelen = artikelZoeker(artikelen);
+  toonArrays(gevondenArtikelen);
+  const getallen = vraagPrijzen();
+  const gefilterdePrijzen = filterPrijzen(getallen, artikelen);
+  for (const item of gefilterdePrijzen) {
+    console.log(item.naam, item.verkoopprijs);
+  }
+  const gemiddelde = berekenGemiddelde(gefilterdePrijzen);
+  console.log(`De gemiddelde verkoopprijs is ${gemiddelde}`);
+} else {
+  console.log("Programma gestopt");
 }
-const gemiddelde = berekenGemiddelde(artikelen);
-console.log(`De gemiddelde verkoopprijs is ${gemiddelde}`);
 
 //vraag input
-function vraagArtikelen() {
+function vraagArtikelen(naam) {
   const artikelen = [];
-  let naam = prompt("Naam van artikel (typ stop om te stoppen)");
   while (naam !== "stop") {
     artikelen.push({
       naam: naam,
@@ -28,7 +32,7 @@ function vraagArtikelen() {
 }
 
 //check als er artikelen zijn met het woord in de naam
-function artikelZoeker() {
+function artikelZoeker(artikelen) {
   const woord = prompt("geef een woord");
   const gevondenArtikelen = [];
   for (let artikel of artikelen) {
